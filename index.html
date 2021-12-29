@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="initial-scale=1.0, minimum-scale=1.0, user-scalable=0, width=device-width"
+    />
+    <title>小猪猪查网课答案</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.bootcss.com/weui/0.4.3/style/weui.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.bootcss.com/jquery-weui/0.8.3/css/jquery-weui.min.css"
+    />
+    <style>
+      body,
+      html {
+        height: 100%;
+        -webkit-tap-highlight-color: transparent;
+      }
+      .title {
+        text-align: center;
+        font-size: 26px;
+        color: #3cc51f;
+        font-weight: 400;
+        margin: 0 15%;
+      }
+
+      .header {
+        padding: 35px 0;
+      }
+      .content {
+        padding: 0 20px;
+      }
+      .footer {
+        position: fixed;
+        bottom: 30px;
+        left: 0;
+        right: 0;
+        padding: 0 20px;
+      }
+
+      em {
+        font-style: normal;
+        color: #3cc51f;
+      }
+      #question1 {
+        padding: 10px;
+        font-size: 16px;
+      }
+      #haha {
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body ontouchstart>
+    <header class="header">
+      <h1 class="title">吉珠小猪猪-网课答案</h1>
+    </header>
+    <div class="content">
+      <div class="weui_cells weui_cells_form">
+        <textarea
+          class="weui_textarea"
+          id="question1"
+          placeholder="输入题目，点击搜索即可查看答案"
+          rows="4"
+        ></textarea>
+      </div>
+      <div class="weui_cells weui_cells_form">
+        <a class="weui_btn weui_btn_primary" href="javascript:" id="search"
+          >搜索</a
+        >
+      </div>
+      <div class="weui_cell weui_cells_form">
+        <div class="weui-cell__bd" id="question2"></div>
+      </div>
+      <div class="weui_cell weui_cells_form">
+        <div class="weui-cell__bd" id="answer"></div>
+      </div>
+      <div class="weui_cell weui_cells_form">
+        <div class="weui-cell__bd" id="haha"></div>
+      </div>
+    </div>
+    <div class="footer">
+      <a class="weui_btn weui_btn_warn" href="javascript:" id="guanzhu"
+        >关注我们</a
+      >
+    </div>
+  </body>
+  <script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+  <script src="https://cdn.bootcss.com/jquery-weui/0.8.3/js/jquery-weui.min.js"></script>
+
+  <script type="text/javascript">
+    // {"url" : "http://api.902000.xyz:88/wkapi.php","postIssueParam":"q","keyParam":"answer","method":"post"},
+    $(function () {
+      $("#search").click(haha);
+      $("#question1").keydown(function (e) {
+        if (e.keyCode == 13) {
+          haha();
+        }
+      });
+
+      function haha() {
+        var question = $("#question1").val();
+        if (question.length < 1) {
+          $.alert("题目不可为空");
+        } else if (question.length < 4) {
+          $.toptip("搜索失败，题目不能少于4个字", "error");
+          $.ajax({
+            url: "/wkapi.php",
+            data: {
+              q: question,
+            },
+            type: "get",
+            dataType: "json",
+            success: function (data) {
+              $("#question2").html("<em>题目：</em>" + data.tm);
+              $("#answer").html("<em>答案：</em>" + data.answer);
+              $("#haha").html("<em>关注【吉珠小猪猪】公众号，获取更多。");
+            },
+          });
+        } else {
+          $.ajax({
+            url: "/wkapi.php",
+            data: {
+              q: question,
+            },
+            type: "get",
+            dataType: "json",
+            success: function (data) {
+              $.toptip("搜索成功", "success");
+              $("#question2").html("<em>题目：</em>" + data.tm);
+              $("#answer").html("<em>答案：</em>" + data.answer);
+            },
+          });
+        }
+      }
+
+      $("#guanzhu").click(function () {
+        $.alert("<img src='./wei.jpeg' />", "关注我们");
+      });
+    });
+  </script>
+</html>
