@@ -95,6 +95,11 @@
 
   <script type="text/javascript">
     // {"url" : "http://api.902000.xyz:88/wkapi.php","postIssueParam":"q","keyParam":"answer","method":"post"},
+
+    // 部署服务器时配置代理转发
+    // location /wkapi.php{
+    //   proxy_pass http://api.902000.xyz:88/wkapi.php;
+    // }
     $(function () {
       $("#search").click(haha);
       $("#question1").keydown(function (e) {
